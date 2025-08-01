@@ -4,6 +4,9 @@
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/discord.xml
+/.idea/misc.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
@@ -13,3 +16,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/studiobot.xml
+/.kotlin/errors/errors-1746134490147.log
