@@ -1,20 +1,39 @@
 package com.example.moodtunes
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), WeatherLogic {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+
+        val weatherService = WeatherService(this)
+
+
+        weatherService.fetchWeatherData(CITY_NAME)
+    }
+
+
+    override fun onWeatherSuccess(mainWeather: String, weatherDescription: String) {
+
+        Log.d(TAG, "Weather for " + CITY_NAME + ": " + mainWeather)
+        Log.d(TAG, "Description: $weatherDescription")
+
+
+    }
+
+    override fun onWeatherFailure(errorMessage: String) {
+
+        Log.e(TAG, "Failed to get weather data: $errorMessage")
+
+
+    }
+
+    companion object {
+        private const val TAG = "WeatherApp"
+        private const val CITY_NAME = "Port Elizabeth"
     }
 }
