@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/bg_gradient"
+    android:padding="16dp">
+
+    <!-- Outer darkest circle -->
+    <View
+        android:id="@+id/circle_outer"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/circle_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Middle medium circle -->
+    <View
+        android:id="@+id/circle_mid"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/circle_mid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Inner light circle -->
+    <View
+        android:id="@+id/circle_light"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/circle_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- App title -->
+
+    <!-- Centered circular button -->
 
     <TextView
+        android:id="@+id/txtLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginBottom="176dp"
+        android:fontFamily="@font/amaranth"
+        android:text="Mood Tunes"
+        android:textColor="@android:color/white"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSongs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.568" />
+
+    <Button
+        android:id="@+id/btnSongs"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:background="@drawable/circle_button"
+        android:text="Give me Tunes!"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
