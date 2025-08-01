@@ -67,7 +67,7 @@
         android:background="@drawable/circle_button"
         android:text="Give me Tunes!"
         android:textAllCaps="false"
-        android:textColor="#ffff"
+        android:textColor="#ffffff"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
