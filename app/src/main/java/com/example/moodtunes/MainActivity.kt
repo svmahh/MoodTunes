@@ -1,9 +1,11 @@
 package com.example.moodtunes
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
@@ -43,6 +45,17 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic, Lastfm
             )
         } else {
             geolocationApiService.fetchGeolocation()
+        }
+
+        findViewById<Button>(R.id.btnSongs).setOnClickListener {
+
+            // make methods to display songs and view here
+            Intent(this, MoodActivity::class.java).also { intent ->
+                intent.putExtra("MOOD_TAG", TAG.lowercase())
+                startActivity(intent)
+
+
+            }
         }
     }
 
