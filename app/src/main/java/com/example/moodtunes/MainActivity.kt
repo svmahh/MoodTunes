@@ -1,7 +1,9 @@
 package com.example.moodtunes
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -12,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
  * This activity implements [WeatherLogic] to handle weather data callbacks and
  * [LastfmLogic] to handle Last.fm API callbacks.
  */
+
 class MainActivity : AppCompatActivity(), WeatherLogic, LastfmLogic {
     private lateinit var weatherService: WeatherService
     private lateinit var lastfmApiService: LastfmApiService
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +29,33 @@ class MainActivity : AppCompatActivity(), WeatherLogic, LastfmLogic {
 
         // Directly fetch weather for a hardcoded city, no geolocation needed.
         weatherService.fetchWeatherData("Port Elizabeth")
+
+        findViewById<Button>(R.id.btnSongs).setOnClickListener {
+
+            // make methods to display songs and view here
+            Intent(this, MoodActivity::class.java).also { intent ->
+                intent.putExtra("MOOD_TAG", TAG.lowercase())
+                startActivity(intent)
+
+
+            }
+        }
+
     }
+
+    override fun onRecommendationsSuccess(recommendations: LastfmResponse) {
+        // Get the list of LastfmResponse.Track objects
+        val tracks = recommendations
+            .getTracks()
+            .getTrackList()
+            .filterNotNull()
+       // adapter.updateTracks(tracks)
+    }
+
+    override fun onRecommendationsFailure(errorMessage: String?) {
+        Log.e("MoodActivity", "Last.fm Error: $errorMessage")
+    }
+
 
     override fun onWeatherSuccess(mainWeather: String, weatherDescription: String) {
         Log.d(TAG, "Weather for Gqeberha: $mainWeather")
@@ -50,16 +80,16 @@ class MainActivity : AppCompatActivity(), WeatherLogic, LastfmLogic {
         Log.e(TAG, "Failed to get weather data: $errorMessage")
     }
 
-    override fun onRecommendationsSuccess(recommendations: LastfmResponse) {
+    /*override fun onRecommendationsSuccess(recommendations: LastfmResponse) {
         Log.d(TAG, "--- SONG RECOMMENDATIONS ---")
         recommendations.tracks.trackList.forEach { track ->
             Log.d(TAG, "'${track.name}' by ${track.artist.name}")
         }
-    }
+    }*/
 
-    override fun onRecommendationsFailure(errorMessage: String?) {
+    /*override fun onRecommendationsFailure(errorMessage: String?) {
         Log.e(TAG, "Last.fm Error: $errorMessage")
-    }
+    }*/
 
     companion object {
         private const val TAG = "WeatherApp"

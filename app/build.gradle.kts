@@ -47,4 +47,15 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.kittinunf.fuel:fuel-gson:2.3.1")
+    implementation("com.google.code.gson:gson:2.8.7")
+
+//    implementation("com.github.kittinunf.fuel:fuel:2.3.1")
+//    implementation("com.github.kittinunf.fuel:fuel-gson:2.3.1")
+//    implementation("com.google.code.gson:gson:2.8.7")
+//    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+
 }
