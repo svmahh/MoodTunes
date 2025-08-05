@@ -17,7 +17,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.concurrent.Executors
 
 
-class MoodActivity : AppCompatActivity() {
+class MoodActivity : AppCompatActivity(), LastfmLogic {
 
     private lateinit var ivMoodImage: ImageView
     private lateinit var rvTracks: RecyclerView
@@ -45,7 +45,7 @@ class MoodActivity : AppCompatActivity() {
 
         val tag = intent.getStringExtra("MOOD_TAG") ?: "pop"
         fetchUnsplashImage(tag)
-        //fetchTopTracks(tag)
+        fetchTopTracks(tag)
     }
 
     private fun fetchUnsplashImage(query: String) {
@@ -82,11 +82,10 @@ class MoodActivity : AppCompatActivity() {
         }
     }
 
-
-   /* private fun fetchTopTracks(tag: String) {
+    private fun fetchTopTracks(tag: String) {
         val lastfmService = LastfmApiService(this)
         lastfmService.fetchTopTracks(tag)
-    }*/
+    }
 
 
     // --- Data models ---
@@ -108,4 +107,16 @@ class MoodActivity : AppCompatActivity() {
     )
 
     data class Artist(val name: String)
+
+
+    override fun onRecommendationsSuccess(recommendations: com.example.moodtunes.LastfmResponse) {
+        val lastfmTracks = recommendations.tracks.trackList.map {
+            LastfmTrack(it.name, Artist(it.artist.name))
+        }
+        adapter.updateTracks(lastfmTracks)
+    }
+
+    override fun onRecommendationsFailure(errorMessage: String?) {
+        Log.e("MoodActivity", "Last.fm error: $errorMessage")
+    }
 }
