@@ -7,9 +7,20 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
-class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic {
+/**
+ * MainActivity is the main entry point of the application.
+ * It uses geolocation to fetch weather data and retrieves song recommendations
+ * from Last.fm based on the current weather conditions.
+ *
+ * Implements:
+ * - WeatherLogic: to handle weather data callbacks
+ * - GeolocationLogic: to handle location fetching
+ * - LastfmLogic: to handle Last.fm API callbacks
+ */
+class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic, LastfmLogic {
     private lateinit var weatherService: WeatherService
     private lateinit var geolocationApiService: GeolocationApiService
+    private lateinit var lastfmApiService: LastfmApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +28,7 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic {
 
         weatherService = WeatherService(this)
         geolocationApiService = GeolocationApiService(this)
+        lastfmApiService = LastfmApiService(this)
 
         // Request location permission
         if (ActivityCompat.checkSelfPermission(
@@ -49,15 +61,6 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic {
         }
     }
 
-    override fun onWeatherSuccess(mainWeather: String, weatherDescription: String) {
-        Log.d(TAG, "Weather: $mainWeather")
-        Log.d(TAG, "Description: $weatherDescription")
-    }
-
-    override fun onWeatherFailure(errorMessage: String) {
-        Log.e(TAG, "Failed to get weather data: $errorMessage")
-    }
-
     override fun onGeolocationSuccess(city: String?) {
         if (city != null) {
             Log.d(TAG, "City: $city")
@@ -69,6 +72,39 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic {
 
     override fun onGeolocationFailure(errorMessage: String?) {
         Log.e(TAG, "Failed to get geolocation data: $errorMessage")
+    }
+
+    override fun onWeatherSuccess(mainWeather: String, weatherDescription: String) {
+        Log.d(TAG, "Weather: $mainWeather")
+        Log.d(TAG, "Description: $weatherDescription")
+        getSongRecommendations(mainWeather)
+    }
+
+    override fun onWeatherFailure(errorMessage: String) {
+        Log.e(TAG, "Failed to get weather data: $errorMessage")
+    }
+
+    private fun getSongRecommendations(weather: String) {
+        val tag = when (weather.lowercase()) {
+            "clear" -> "pop"
+            "clouds" -> "indie"
+            "rain", "drizzle" -> "acoustic"
+            "thunderstorm" -> "rock"
+            "snow" -> "folk"
+            else -> "pop"
+        }
+        lastfmApiService.fetchTopTracks(tag)
+    }
+
+    override fun onRecommendationsSuccess(recommendations: LastfmResponse) {
+        Log.d(TAG, "--- SONG RECOMMENDATIONS ---")
+        recommendations.tracks.trackList.forEach { track ->
+            Log.d(TAG, "'${track.name}' by ${track.artist.name}")
+        }
+    }
+
+    override fun onRecommendationsFailure(errorMessage: String?) {
+        Log.e(TAG, "Last.fm Error: $errorMessage")
     }
 
     companion object {
