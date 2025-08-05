@@ -19,7 +19,7 @@ class LastfmApiService(private val callback: LastfmLogic) {
     }
 
     fun fetchTopTracks(tag: String) {
-        val call = service.getTopTracksByTag("tag.gettoptracks", tag, apiKey, "json")
+        val call = service.getTopTracksByTag("tag.gettoptracks", tag, apiKey, "json", 5)
         call.enqueue(object : Callback<LastfmResponse> {
             override fun onResponse(call: Call<LastfmResponse>, response: Response<LastfmResponse>) {
                 if (response.isSuccessful && response.body() != null) {
