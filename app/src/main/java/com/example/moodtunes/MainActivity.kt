@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic, Lastfm
     private lateinit var weatherService: WeatherService
     private lateinit var geolocationApiService: GeolocationApiService
     private lateinit var lastfmApiService: LastfmApiService
+    private var currentMoodTag: String = "pop"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic, Lastfm
 
             // make methods to display songs and view here
             Intent(this, MoodActivity::class.java).also { intent ->
-                intent.putExtra("MOOD_TAG", TAG.lowercase())
+                intent.putExtra("MOOD_TAG", currentMoodTag)
                 startActivity(intent)
 
 
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic, Lastfm
     }
 
     private fun getSongRecommendations(weather: String) {
-        val tag = when (weather.lowercase()) {
+        currentMoodTag = when (weather.lowercase()) {
             "clear" -> "pop"
             "clouds" -> "indie"
             "rain", "drizzle" -> "acoustic"
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity(), WeatherLogic, GeolocationLogic, Lastfm
             "snow" -> "folk"
             else -> "pop"
         }
-        lastfmApiService.fetchTopTracks(tag)
+        lastfmApiService.fetchTopTracks(currentMoodTag)
     }
 
     override fun onRecommendationsSuccess(recommendations: LastfmResponse) {

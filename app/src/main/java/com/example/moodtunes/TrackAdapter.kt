@@ -1,17 +1,11 @@
 package com.example.moodtunes
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moodtunes.MoodActivity.LastfmTrack
-
-data class SimpleTrack(val name: String, val artist: String)
 
 class TrackAdapter(
     private var items: List<LastfmTrack>

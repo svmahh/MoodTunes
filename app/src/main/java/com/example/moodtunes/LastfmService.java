@@ -10,6 +10,7 @@ public interface LastfmService {
             @Query("method") String method,
             @Query("tag") String tag,
             @Query("api_key") String apiKey,
-            @Query("format") String format
+            @Query("format") String format,
+            @Query("limit") int limit
     );
 }
