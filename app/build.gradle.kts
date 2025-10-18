@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -15,6 +16,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        compose = true
     }
 
     buildTypes {
@@ -36,6 +40,19 @@ android {
 }
 
 dependencies {
+
+    val composeBom = platform("androidx.compose:compose-bom:2025.10.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    implementation(libs.androidx.material3)
+    // Android Studio Preview support
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+
+    // UI Tests
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
